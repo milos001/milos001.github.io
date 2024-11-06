@@ -71,7 +71,7 @@ $(window).on('load', function() {
 		asNavFor: '.hero-text-slider',
 		autoplay: true,
 		pauseOnHover:false,
-		autoplaySpeed: 3000,
+		autoplaySpeed: 20000,
 		responsive: [
 			{
 				breakpoint: 480,
