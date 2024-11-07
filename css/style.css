@@ -596,7 +596,7 @@ ol {
 .hero-slider .slick-track {
 	-webkit-transition: all 0.1s;
 	-o-transition: all 0.1s;
-	transition: all 0.1s;
+	transition: none;
 }
 
 .slide-item img {
