@@ -62,7 +62,7 @@ $(window).on('load', function() {
 	$('.hero-slider').slick({
 		dots: false,
 		infinite: true,
-		speed: 300,
+		speed: 150,
 		slidesToShow: 1,
 		centerMode: true,
 		variableWidth: true,
@@ -104,7 +104,7 @@ $(window).on('load', function() {
 
 	$('.hero-text-slider').slick({
 		dots: false,
-		infinite: true,
+		infinite: false,
 		speed: 300,
 		arrows: false,
 		asNavFor: '.hero-slider',
