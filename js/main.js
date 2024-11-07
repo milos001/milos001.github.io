@@ -104,44 +104,10 @@ $(window).on('load', function() {
 
 	$('.hero-text-slider').slick({
 		dots: false,
-		infinite: false,
-		speed: 300,
-		arrows: false,
-		asNavFor: '.hero-slider',
-	});
-
-	/*-------------------
-		Blog Slider
-	-------------------*/
-	$('.blog__slider').slick({
-		dots: false,
 		infinite: true,
 		speed: 300,
 		arrows: false,
-		centerMode: true,
-		centerPadding: '190px',
-		slidesToShow: 2,
-		autoplay: true,
-		pauseOnHover:false,
-		responsive: [
-			{
-				breakpoint: 991,
-				settings: {
-				centerPadding: '0',
-				slidesToShow: 2,
-				slidesToScroll: 2
-				}
-			},
-			{
-				breakpoint: 480,
-				settings: {
-					centerMode: false,
-					slidesToShow: 1,
-					slidesToScroll: 1,
-					centerPadding: '0',
-				}
-			}
-		]
+		asNavFor: '.hero-slider',
 	});
 
 	/*-------------------
