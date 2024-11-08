@@ -89,7 +89,7 @@ $(window).on('load', function() {
 
 	$('.hero-text-slider').slick({
 		dots: false,
-		infinite: false,
+		infinite: true,
 		speed: 300,
 		arrows: false,
 		asNavFor: '.hero-slider',

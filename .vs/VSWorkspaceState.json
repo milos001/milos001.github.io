@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\css",
+    "\\js"
   ],
-  "SelectedNode": "\\C:\\Users\\milow\\Source\\Repos\\milos001.github.io",
+  "SelectedNode": "\\js\\main.js",
   "PreviewInSolutionExplorer": false
 }
