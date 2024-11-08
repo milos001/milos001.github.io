@@ -77,7 +77,10 @@ $(window).on('load', function() {
 		} else {
 			$(this).slick('slickNext');
 		}
-		window.scroll(0, 150);
+		window.scroll({
+			top = 150,
+			behavior = "smooth";
+		});
 	}));
 
 	hero_slider.on('click', '.slick-slide', function (e) {
