@@ -77,6 +77,7 @@ $(window).on('load', function() {
 		} else {
 			$(this).slick('slickNext');
 		}
+		window.scroll(0, 150);
 	}));
 
 	hero_slider.on('click', '.slick-slide', function (e) {
