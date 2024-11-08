@@ -79,15 +79,6 @@ $(window).on('load', function() {
 		}
 	}));
 
-	hero_slider.on('wheel', function () {
-		var i = 10;
-		var int = setInterval(function () {
-			window.scrollTo(0, i);
-			i += 10;
-			if (i >= 150) clearInterval(int);
-		}, 20);
-	})
-
 	hero_slider.on('click', '.slick-slide', function (e) {
 		e.preventDefault();
 		var index = $(this).data("slick-index");
