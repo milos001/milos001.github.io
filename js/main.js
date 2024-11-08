@@ -77,11 +77,16 @@ $(window).on('load', function() {
 		} else {
 			$(this).slick('slickNext');
 		}
-		window.scroll({
-			top = 150,
-			behavior = "smooth";
-		});
 	}));
+
+	hero_slider.on('wheel', function () {
+		var i = 10;
+		var int = setInterval(function () {
+			window.scrollTo(0, i);
+			i += 10;
+			if (i >= 150) clearInterval(int);
+		}, 20);
+	})
 
 	hero_slider.on('click', '.slick-slide', function (e) {
 		e.preventDefault();
