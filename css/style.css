@@ -1199,3 +1199,26 @@ only screen and (min-width: 576px) and (max-width: 767px) {
 }
 
 * {scroll-behavior: smooth;}
+a:link {
+	color: #00b3b3;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #00b3b3;
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00b3b3;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+a:active {
+	color: #00b3b3;
+	background-color: transparent;
+	text-decoration: underline;
+}
