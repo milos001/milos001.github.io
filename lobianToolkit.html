@@ -16,15 +16,43 @@
     <style>
         /* Basic styles for the container */
         #unity-container {
-            width: 960px;
-            height: 600px;
-            margin: auto;
+            width: 100%; /* Make it take full width of its column */
+            max-width: 960px; /* Cap the maximum width for larger screens */
+            aspect-ratio: 16 / 9; /* Maintain a 16:9 aspect ratio (adjust if your game uses a different ratio) */
+            margin: 0 auto; /* Center horizontally within the column */
+            /* Removed height: auto; as aspect-ratio handles height */
+            /* Removed min-height, min-width, max-height that caused issues */
         }
 
         #unity-canvas {
             width: 100%;
             height: 100%;
             background: #231F20;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #2c2c2c;
+            margin-top: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: #f51167;
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Styles for description area to ensure proper spacing and appearance */
+        .project-description-area {
+            padding: 20px; /* Add some internal padding */
+        }
+
+        .section-title {
+            margin-bottom: 20px;
         }
     </style>
 
@@ -69,10 +97,34 @@
         </div>
     </header>
     <!-- Header Section end -->
-    <!-- About Page -->
-    <div id="unity-container" class="unity-desktop">
-        <canvas id="unity-canvas"></canvas>
-    </div>
+    
+    <!-- Main Content Section for LobianToolkit -->
+    <section class="main-content-section py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 order-2 order-md-1">
+                    <div class="project-description-area mt-4 mt-md-0">
+                        <h2 class="section-title">LobianToolkit</h2>
+                        <p>
+                            The LobianToolkit is a set of tools designed to ease the use of creating applications with AI integration.
+                        </p>
+                        <p>
+                            This particular demonstration is an apartment furnishing simulator, aided by AI.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 order-1 order-md-2 d-flex justify-content-center align-items-center">
+                    <div id="unity-container" class="unity-desktop">
+                        <canvas id="unity-canvas"></canvas>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="unity-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Main Content Section -->
 
     <script>
         var buildUrl = "BuilderDemo/Build";
@@ -94,8 +146,10 @@
         script.src = loaderUrl;
         script.onload = () => {
             createUnityInstance(canvas, config, (progress) => {
-                // You can update a progress bar here if you want.
-                console.log(progress * 100 + "%");
+                const progressBar = document.querySelector("#unity-progress-bar");
+                progressBar.style.background = '#231F20';
+                progressBar.style.width = `${Math.round(progress * 100)}%`;
+                progressBar.style.backgroundColor = '#00ffff';
             }).then((unityInstance) => {
                 // Game loaded successfully
             }).catch((message) => {
@@ -104,7 +158,6 @@
         };
         document.body.appendChild(script);
     </script>
-    <!-- About Page end -->
     <!-- Footer Section -->
     <footer class="footer__section">
         <div class="container">
