@@ -2,8 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\BuilderDemo",
-    "\\css"
+    "\\BuilderDemo\\Build"
   ],
-  "SelectedNode": "\\BuilderDemo\\Build",
+  "SelectedNode": "\\BuilderDemo\\Build\\BuilderDemo.loader.js",
   "PreviewInSolutionExplorer": false
 }
