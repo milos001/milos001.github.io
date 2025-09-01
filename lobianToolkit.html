@@ -13,41 +13,36 @@
     <link rel="stylesheet" href="css/style.css" />
 
     <style>
-        /* --- Improved Unity Container & Loader Styles --- */
 
-        /* Centering the main content and adding vertical padding */
         .main-content-section {
             padding-top: 60px;
             padding-bottom: 60px;
         }
 
-        /* Project Description Area */
         .project-description-area {
-            text-align: center; /* Center the text for a cleaner look */
-            margin-bottom: 40px; /* Add space between text and the Unity app */
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .project-description-area h2 {
-            font-size: 2.5rem; /* Make title more prominent */
+            font-size: 2.5rem;
             margin-bottom: 15px;
         }
 
         .project-description-area p {
             font-size: 1.1rem;
             color: #888;
-            max-width: 700px; /* Improve readability for long text */
-            margin: 0 auto; /* Center the paragraph block */
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        /* Unity Application Container */
         #unity-container {
             width: 100%;
-            /* Removed max-width to allow it to fill its container */
-            aspect-ratio: 16 / 9; /* Maintain a 16:9 aspect ratio */
+            aspect-ratio: 16 / 9;
             margin: 0 auto;
-            border-radius: 12px; /* Rounded corners for a modern feel */
-            overflow: hidden; /* Ensures canvas stays within the rounded corners */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Adds depth */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         #unity-canvas {
@@ -56,20 +51,18 @@
             background: #231F20;
         }
 
-        /* --- Modern Loading Bar --- */
         #loader-container {
             width: 100%;
-            max-width: 600px; /* Give the loader a max width */
-            margin: 20px auto 0; /* Center it below the canvas */
+            max-width: 600px;
+            margin: 20px auto 0;
             text-align: center;
-            /* Smoothly transition out when loading is complete */
             transition: opacity 0.5s ease-out;
         }
 
         .progress-bar-container {
             width: 100%;
             height: 12px;
-            background-color: #333; /* Darker, less distracting background */
+            background-color: #333;
             border-radius: 6px;
             overflow: hidden;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
@@ -79,10 +72,10 @@
             width: 0%;
             height: 100%;
             border-radius: 6px;
-            background: linear-gradient(90deg, #f51167, #00ffff); /* Modern gradient */
+            background: linear-gradient(90deg, #f51167, #00ffff); 
             background-size: 200% 200%;
-            transition: width 0.4s ease; /* Smoother progress transition */
-            animation: gradient-animation 3s ease infinite; /* Subtle shimmer effect */
+            transition: width 0.4s ease;
+            animation: gradient-animation 3s ease infinite;
         }
 
         #loading-percentage {
@@ -91,7 +84,6 @@
             font-weight: bold;
         }
 
-        /* Animation for the progress bar gradient */
         @keyframes gradient-animation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -140,6 +132,7 @@
                     <h2 class="section-title">LobianToolkit Demo</h2>
                     <p>
                         This demonstration showcases an apartment furnishing simulator built with the LobianToolkit, a set of tools designed to simplify creating applications with AI integration.
+                        It is still in development and this page is primarily for testing and showcasing of experimental features, any feedback is appreciated.
                     </p>
                 </div>
             </div>
@@ -161,9 +154,7 @@
     </div>
 </section>
 <script>
-    // --- Unity WebGL Loader ---
 
-    // Configuration for the Unity build
     const buildUrl = "BuilderDemo/Build";
     const loaderUrl = buildUrl + "/BuilderDemo.loader.js";
     const config = {
@@ -171,35 +162,29 @@
         frameworkUrl: buildUrl + "/BuilderDemo.framework.js.unityweb",
         codeUrl: buildUrl + "/BuilderDemo.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "Milos Milosavljevic", // Updated placeholder
-        productName: "LobianToolkit Demo", // Updated placeholder
+        companyName: "Milos Milosavljevic",
+        productName: "LobianToolkit Demo",
         productVersion: "1.0",
     };
 
-    // --- DOM Element References ---
     const canvas = document.querySelector("#unity-canvas");
     const loaderContainer = document.querySelector("#loader-container");
     const progressBar = document.querySelector("#unity-progress-bar");
     const loadingPercentage = document.querySelector("#loading-percentage");
 
-    // --- Create and load the Unity instance ---
     const script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-            // Update the progress bar width and percentage text
             const percentage = Math.round(progress * 100);
             progressBar.style.width = percentage + "%";
             loadingPercentage.textContent = percentage + "%";
         }).then((unityInstance) => {
-            // Once loading is complete, hide the loader with a fade-out effect
             loaderContainer.style.opacity = '0';
-            // After the transition, remove it from the layout
             setTimeout(() => {
                 loaderContainer.style.display = 'none';
-            }, 500); // Matches the transition duration in CSS
+            }, 500);
         }).catch((message) => {
-            // Display any errors to the user
             alert(message);
         });
     };
