@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\BuilderDemo",
-    "\\BuilderDemo\\Build"
+    "\\BuilderDemo\\Build",
+    "\\BuilderDemo\\TemplateData"
   ],
-  "SelectedNode": "\\BuilderDemo\\Build",
+  "SelectedNode": "\\BuilderDemo",
   "PreviewInSolutionExplorer": false
 }
