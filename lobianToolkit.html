@@ -89,6 +89,35 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        #unity-wrapper {
+            position: relative;
+            /* Ensure the wrapper doesn't affect centering */
+        }
+
+        #fullscreen-btn {
+            position: absolute;
+            bottom: -36px; /* 12px below the container */
+            right: 0; /* aligned to right edge of container */
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        #fullscreen-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        #fullscreen-btn:active {
+            transform: scale(0.95);
+        }
     </style>
 
 
@@ -140,8 +169,13 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-12">
-                <div id="unity-container" class="unity-desktop">
-                    <canvas id="unity-canvas"></canvas>
+                <div id="unity-wrapper" style="position: relative; display: block;">
+                    <div id="unity-container" class="unity-desktop">
+                        <canvas id="unity-canvas"></canvas>
+                    </div>
+                    <button id="fullscreen-btn" title="Toggle Fullscreen">
+                        <i class="fa fa-expand"></i>
+                    </button>
                 </div>
                 <div id="loader-container">
                     <div class="progress-bar-container">
@@ -189,6 +223,41 @@
         });
     };
     document.body.appendChild(script);
+
+    // Fullscreen toggle function
+    function toggleFullscreen() {
+        const container = document.getElementById("unity-container");
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            // Enter fullscreen
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) { /* Safari */
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) { /* IE11 */
+                container.msRequestFullscreen();
+            }
+        } else {
+            // Exit fullscreen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+    }
+
+    // Attach click handler to button
+    document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
+
+    // Optional: Add ESC key listener to exit fullscreen gracefully
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && (document.fullscreenElement || document.webkitFullscreenElement)) {
+            // Unity might handle ESC, so only prevent default if no gamepad/UI active?
+            // For safety: just let it bubble unless you have conflicts.
+        }
+    });
 </script>
 <footer class="footer__section">
     <div class="container">
