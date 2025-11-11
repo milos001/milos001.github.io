@@ -1,196 +1,101 @@
-﻿<!DOCTYPE html>
-<html lang="zxx">
-<head>
-    <title>MM | Portfolio - LobianToolkit</title>
-    <meta charset="UTF-8">
-    <meta name="description" content="Milos Milosavljevic Portfolio - LobianToolkit Demo">
-    <meta name="keywords" content="photo, html, unity, webgl, ai, portfolio">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" />
-    <link rel="stylesheet" href="css/slicknav.min.css" />
+﻿<section class="main-content-section">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-12">
 
-    <link rel="stylesheet" href="css/style.css" />
-
-    <style>
-        /* ... (existing styles) ... */
-
-        #loading-percentage {
-            margin-top: 10px;
-            color: #ccc;
-            font-weight: bold;
-        }
-
-        @keyframes gradient-animation {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* === UPDATED CSS FOR FULLSCREEN BUTTON === */
-        .fullscreen-btn {
-            display: block;
-            margin: 20px auto 0;
-            padding: 10px 15px; /* Adjusted padding for icon */
-            font-size: 1.2rem; /* Larger icon */
-            color: #fff;
-            background-color: #00ffff; /* Blue cyan color */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 50px; /* Fixed width for a square-ish button */
-            height: 45px; /* Fixed height */
-            display: flex; /* Use flexbox to center the icon */
-            align-items: center;
-            justify-content: center;
-        }
-
-            .fullscreen-btn:hover {
-                background-color: #00cccc; /* Slightly darker blue cyan on hover */
-            }
-        /* === END UPDATED CSS === */
-
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-4 col-md-3 order-2 order-sm-1">
-                    <div class="header__social">
-                        <a href="https://www.linkedin.com/in/milos-milosavljevic-074a41173/"><i class="fa fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="col-sm-4 col-md-6 order-1  order-md-2 text-center">
-                    <a href="./index.html" class="site-logo">
-                        <img src="img/logo.png" alt="">
-                    </a>
-                </div>
-                <div class="col-sm-4 col-md-3 order-3 order-sm-3">
-                </div>
-            </div>
-            <nav class="main__menu">
-                <ul class="nav__menu">
-                    <li><a href="./index.html">Home</a></li>
-                    <li><a href="./about.html">About</a></li>
-                    <li><a href="./contact.html">Contact</a></li>
-                    <li><a href="./lobianToolkit.html" class="menu--active">LobianToolkit</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <section class="main-content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="project-description-area">
-                        <h2 class="section-title">LobianToolkit Demo</h2>
-                        <p>
-                            This demonstration showcases an apartment furnishing simulator built with the LobianToolkit, a set of tools designed to simplify creating applications with AI integration.
-                            It is still in development and this page is primarily for testing and showcasing of experimental features, any feedback is appreciated.
-                        </p>
-                    </div>
-                </div>
+            <div id="unity-container" class="unity-desktop">
+                <canvas id="unity-canvas"></canvas>
             </div>
 
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-md-12">
-                    <div id="unity-container" class="unity-desktop">
-                        <canvas id="unity-canvas"></canvas>
-                    </div>
-                    <div id="loader-container">
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" id="unity-progress-bar"></div>
-                        </div>
-                        <div id="loading-percentage">0%</div>
-                    </div>
-
-                    <button id="fullscreen-button" class="fullscreen-btn" aria-label="Toggle Fullscreen">
-                        <i class="fa fa-arrows-alt"></i>
-                    </button>
-                </div>
+            <div id="loader-container">
             </div>
-        </div>
-    </section>
 
-    <script>
-        const buildUrl = "BuilderDemo/Build";
-        const loaderUrl = buildUrl + "/BuilderDemo.loader.js";
-        const config = {
-            dataUrl: buildUrl + "/BuilderDemo.data.unityweb",
-            frameworkUrl: buildUrl + "/BuilderDemo.framework.js.unityweb",
-            codeUrl: buildUrl + "/BuilderDemo.wasm.unityweb",
-            streamingAssetsUrl: "StreamingAssets",
-            companyName: "Milos Milosavljevic",
-            productName: "LobianToolkit Demo",
-            productVersion: "1.0",
-        };
+            <button id="fullscreen-button" class="fullscreen-btn" aria-label="Toggle Fullscreen">
+                <i class="fa fa-arrows-alt"></i>
+            </button>
 
-        const canvas = document.querySelector("#unity-canvas");
-        const loaderContainer = document.querySelector("#loader-container");
-        const progressBar = document.querySelector("#unity-progress-bar");
-        const loadingPercentage = document.querySelector("#loading-percentage");
-
-        const fullscreenButton = document.querySelector("#fullscreen-button");
-        let isFullscreen = false; // Track fullscreen state
-
-        const script = document.createElement("script");
-        script.src = loaderUrl;
-        script.onload = () => {
-            createUnityInstance(canvas, config, (progress) => {
-                const percentage = Math.round(progress * 100);
-                progressBar.style.width = percentage + "%";
-                loadingPercentage.textContent = percentage + "%";
-            }).then((unityInstance) => {
-                loaderContainer.style.opacity = '0';
-                setTimeout(() => {
-                    loaderContainer.style.display = 'none';
-                }, 500);
-
-                fullscreenButton.onclick = () => {
-                    isFullscreen = !isFullscreen;
-                    unityInstance.SetFullscreen(isFullscreen ? 1 : 0);
-                };
-
-            }).catch((message) => {
-                alert(message);
-            });
-        };
-        document.body.appendChild(script);
-    </script>
-
-    <footer class="footer__section">
-        <div class="container">
-            <div class="footer__copyright__text">
-                <p>
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                </p>
-            </div>
-        </div>
-    </footer>
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
         </div>
     </div>
-    <script src="js/vendor/jquery-3.2.1.min.js"></script>
-    <script src="js/jquery.slicknav.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/main.js"></script>
+</section>
+
+
+<script>
+    const buildUrl = "BuilderDemo/Build";
+    const loaderUrl = buildUrl + "/BuilderDemo.loader.js";
+    const config = {
+        dataUrl: buildUrl + "/BuilderDemo.data.unityweb",
+        frameworkUrl: buildUrl + "/BuilderDemo.framework.js.unityweb",
+        codeUrl: buildUrl + "/BuilderDemo.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "Milos Milosavljevic",
+        productName: "LobianToolkit Demo",
+        productVersion: "1.0",
+    };
+
+    const canvas = document.querySelector("#unity-canvas");
+    const loaderContainer = document.querySelector("#loader-container");
+    const progressBar = document.querySelector("#unity-progress-bar");
+    const loadingPercentage = document.querySelector("#loading-percentage");
+    const fullscreenButton = document.querySelector("#fullscreen-button");
+
+    // === UPDATED FULLSCREEN LOGIC ===
+    const unityContainer = document.querySelector("#unity-container");
+
+    fullscreenButton.onclick = () => {
+        // Check if we are currently in fullscreen
+        if (!document.fullscreenElement) {
+            // Not fullscreen, so enter fullscreen
+            // We request fullscreen on the *container* to avoid Unity's internal crash
+            if (unityContainer.requestFullscreen) {
+                unityContainer.requestFullscreen();
+            } else if (unityContainer.mozRequestFullScreen) { /* Firefox */
+                unityContainer.mozRequestFullScreen();
+            } else if (unityContainer.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                unityContainer.webkitRequestFullscreen();
+            } else if (unityContainer.msRequestFullscreen) { /* IE/Edge */
+                unityContainer.msRequestFullscreen();
+            }
+        } else {
+            // Is fullscreen, so exit
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { /* Chrome, Safari & Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE/Edge */
+                document.msExitFullscreen();
+            }
+        }
+    };
+    // === END UPDATED LOGIC ===
+
+    const script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+            const percentage = Math.round(progress * 100);
+            progressBar.style.width = percentage + "%";
+            loadingPercentage.textContent = percentage + "%";
+        }).then((unityInstance) => {
+            loaderContainer.style.opacity = '0';
+            setTimeout(() => {
+                loaderContainer.style.display = 'none';
+            }, 500);
+
+            // Note: We are no longer using unityInstance.SetFullscreen
+
+        }).catch((message) => {
+            alert(message);
+        });
+    };
+    document.body.appendChild(script);
+</script>
+<footer class="footer__section">
+</footer>
+<script src="js/vendor/jquery-3.2.1.min.js"></script>
+<script src="js/jquery.slicknav.min.js"></script>
+<script src="js/slick.min.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>
