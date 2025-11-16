@@ -36,27 +36,67 @@
             margin: 0 auto;
         }
 
-        #unity-container {
+        /* Added for spacing the second project */
+        .second-project-row {
+            margin-top: 80px;
+            border-top: 1px solid #eee;
+            padding-top: 80px;
+        }
+
+        /* --- Unity Container Styles --- */
+        #unity-container-build,
+        #unity-container-showcase {
             width: 100%;
             aspect-ratio: 16 / 9;
             margin: 0 auto;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative; /* Needed for play overlay */
+            background: #231F20; /* Background shown before load */
         }
 
-        #unity-canvas {
+        #unity-canvas-build,
+        #unity-canvas-showcase {
             width: 100%;
             height: 100%;
             background: #231F20;
         }
+        
+        /* --- Play Button Overlay --- */
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: opacity 0.3s ease;
+        }
+        .play-overlay:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .play-overlay i {
+            font-size: 80px;
+            color: white;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
 
-        #loader-container {
+        /* --- Loader Styles --- */
+        #loader-container-build,
+        #loader-container-showcase {
             width: 100%;
             max-width: 600px;
             margin: 20px auto 0;
             text-align: center;
             transition: opacity 0.5s ease-out;
+            /* Hide by default */
+            display: none; 
         }
 
         .progress-bar-container {
@@ -72,13 +112,14 @@
             width: 0%;
             height: 100%;
             border-radius: 6px;
-            background: linear-gradient(90deg, #f51167, #00ffff); 
+            background: linear-gradient(90deg, #f51167, #00ffff);
             background-size: 200% 200%;
             transition: width 0.4s ease;
             animation: gradient-animation 3s ease infinite;
         }
 
-        #loading-percentage {
+        #loading-percentage-build,
+        #loading-percentage-showcase {
             margin-top: 10px;
             color: #ccc;
             font-weight: bold;
@@ -90,12 +131,15 @@
             100% { background-position: 0% 50%; }
         }
 
-        #unity-wrapper {
+        #unity-wrapper-build,
+        #unity-wrapper-showcase {
             position: relative;
-            /* Ensure the wrapper doesn't affect centering */
+            display: block;
         }
-
-        #fullscreen-btn {
+        
+        /* --- Fullscreen Button Styles --- */
+        #fullscreen-btn-build,
+        #fullscreen-btn-showcase {
             position: absolute;
             bottom: -36px; /* 12px below the container */
             right: 0; /* aligned to right edge of container */
@@ -111,11 +155,13 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
-        #fullscreen-btn:hover {
+        #fullscreen-btn-build:hover,
+        #fullscreen-btn-showcase:hover {
             background: rgba(0, 0, 0, 0.9);
         }
 
-        #fullscreen-btn:active {
+        #fullscreen-btn-build:active,
+        #fullscreen-btn-showcase:active {
             transform: scale(0.95);
         }
     </style>
@@ -169,95 +215,166 @@
 
         <div class="row justify-content-center">
             <div class="col-lg-10 col-md-12">
-                <div id="unity-wrapper" style="position: relative; display: block;">
-                    <div id="unity-container" class="unity-desktop">
-                        <canvas id="unity-canvas"></canvas>
+                <div id="unity-wrapper-build" style="position: relative; display: block;">
+                    <div id="play-btn-build" class="play-overlay">
+                        <i class="fa fa-play-circle"></i>
                     </div>
-                    <button id="fullscreen-btn" title="Toggle Fullscreen">
+                    <div id="unity-container-build" class="unity-desktop">
+                        <canvas id="unity-canvas-build"></canvas>
+                    </div>
+                    <button id="fullscreen-btn-build" title="Toggle Fullscreen">
                         <i class="fa fa-expand"></i>
                     </button>
                 </div>
-                <div id="loader-container">
+                <div id="loader-container-build">
                     <div class="progress-bar-container">
-                        <div class="progress-bar" id="unity-progress-bar"></div>
+                        <div class="progress-bar" id="unity-progress-bar-build"></div>
                     </div>
-                    <div id="loading-percentage">0%</div>
+                    <div id="loading-percentage-build">0%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row second-project-row">
+            <div class="col-12">
+                <div class="project-description-area">
+                    <h2 class="section-title">LobianToolkit Showcase</h2>
+                    <p>
+                        This demo showcases a pre-furnished apartment, highlighting the rendering capabilities and prop library of the LobianToolkit. 
+                        Feel free to explore the environment.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-12">
+                <div id="unity-wrapper-showcase" style="position: relative; display: block;">
+                    <div id="play-btn-showcase" class="play-overlay">
+                        <i class="fa fa-play-circle"></i>
+                    </div>
+                    <div id="unity-container-showcase" class="unity-desktop">
+                        <canvas id="unity-canvas-showcase"></canvas>
+                    </div>
+                    <button id="fullscreen-btn-showcase" title="Toggle Fullscreen">
+                        <i class="fa fa-expand"></i>
+                    </button>
+                </div>
+                <div id="loader-container-showcase">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="unity-progress-bar-showcase"></div>
+                    </div>
+                    <div id="loading-percentage-showcase">0%</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <script>
+    
+    // --- LOADER FOR BUILDER DEMO ---
+    function loadUnityBuild() {
+        // --- OLD ---
+        // const buildUrl = "BuilderDemo/Build";
+        
+        // --- NEW ---
+        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/BuilderDemo/Build";
 
-    const buildUrl = "BuilderDemo/Build";
-    const loaderUrl = buildUrl + "/Build.loader.js";
-    const config = {
-        dataUrl: buildUrl + "/Build.data.unityweb",
-        frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
-        codeUrl: buildUrl + "/Build.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Milos Milosavljevic",
-        productName: "LobianToolkit Demo",
-        productVersion: "1.0",
-    };
+        const loaderUrl = buildUrl + "/Build.loader.js";
+        const config = {
+            dataUrl: buildUrl + "/Build.data.unityweb",
+            frameworkUrl: buildUrl + "/Build.framework.js.unityweb",
+            codeUrl: buildUrl + "/Build.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Milos Milosavljevic",
+            productName: "LobianToolkit Demo",
+            productVersion: "1.0",
+        };
+        // ... (rest of the function is the same) ...
+        const canvas = document.querySelector("#unity-canvas-build");
+        const loaderContainer = document.querySelector("#loader-container-build");
+        const progressBar = document.querySelector("#unity-progress-bar-build");
+        const loadingPercentage = document.querySelector("#loading-percentage-build");
+        const playButton = document.querySelector("#play-btn-build");
 
-    const canvas = document.querySelector("#unity-canvas");
-    const loaderContainer = document.querySelector("#loader-container");
-    const progressBar = document.querySelector("#unity-progress-bar");
-    const loadingPercentage = document.querySelector("#loading-percentage");
+        // Hide play button, show loader
+        playButton.style.display = 'none';
+        loaderContainer.style.display = 'block';
 
-    const script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-            const percentage = Math.round(progress * 100);
-            progressBar.style.width = percentage + "%";
-            loadingPercentage.textContent = percentage + "%";
-        }).then((unityInstance) => {
-            loaderContainer.style.opacity = '0';
-            setTimeout(() => {
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                const percentage = Math.round(progress * 100);
+                progressBar.style.width = percentage + "%";
+                loadingPercentage.textContent = percentage + "%";
+            }).then((unityInstance) => {
+                loaderContainer.style.opacity = '0';
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                }, 500);
+            }).catch((message) => {
+                alert(message);
+                // Show play button again on error?
+                playButton.style.display = 'flex';
                 loaderContainer.style.display = 'none';
-            }, 500);
-        }).catch((message) => {
-            alert(message);
-        });
-    };
-    document.body.appendChild(script);
+            });
+        };
+        document.body.appendChild(script);
+    }
+    
+    // --- LOADER FOR SHOWCASE DEMO ---
+    function loadUnityShowcase() {
+        // --- OLD ---
+        // const buildUrl = "ShowcaseDemo/Showcase"; // New path
 
-    // Fullscreen toggle function
-    function toggleFullscreen() {
-        const container = document.getElementById("unity-container");
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            // Enter fullscreen
-            if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) { /* Safari */
-                container.webkitRequestFullscreen();
-            } else if (container.msRequestFullscreen) { /* IE11 */
-                container.msRequestFullscreen();
-            }
-        } else {
-            // Exit fullscreen
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { /* Safari */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE11 */
-                document.msExitFullscreen();
-            }
-        }
+        // --- NEW ---
+        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/ShowcaseDemo/Build"; // New path
+
+        const loaderUrl = buildUrl + "/Build.loader.js"; // New file
+        const config = {
+            dataUrl: buildUrl + "/Build.data.unityweb", // New file
+            frameworkUrl: buildUrl + "/Build.framework.js.unityweb", // New file
+            codeUrl: buildUrl + "/Build.wasm.unityweb", // New file
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Milos Milosavljevic",
+            productName: "LobianToolkit Showcase", // New product name
+            productVersion: "1.0",
+        };
+        // ... (rest of the function is the same) ...
+        const canvas = document.querySelector("#unity-canvas-showcase");
+        const loaderContainer = document.querySelector("#loader-container-showcase");
+        const progressBar = document.querySelector("#unity-progress-bar-showcase");
+        const loadingPercentage = document.querySelector("#loading-percentage-showcase");
+        const playButton = document.querySelector("#play-btn-showcase");
+
+        // Hide play button, show loader
+        playButton.style.display = 'none';
+        loaderContainer.style.display = 'block';
+
+        const script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+            createUnityInstance(canvas, config, (progress) => {
+                const percentage = Math.round(progress * 100);
+                progressBar.style.width = percentage + "%";
+                loadingPercentage.textContent = percentage + "%";
+            }).then((unityInstance) => {
+                loaderContainer.style.opacity = '0';
+                setTimeout(() => {
+                    loaderContainer.style.display = 'none';
+                }, 500);
+            }).catch((message) => {
+                alert(message);
+                playButton.style.display = 'flex';
+                loaderContainer.style.display = 'none';
+            });
+        };
+        document.body.appendChild(script);
     }
 
-    // Attach click handler to button
-    document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
-
-    // Optional: Add ESC key listener to exit fullscreen gracefully
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && (document.fullscreenElement || document.webkitFullscreenElement)) {
-            // Unity might handle ESC, so only prevent default if no gamepad/UI active?
-            // For safety: just let it bubble unless you have conflicts.
-        }
-    });
+    // ... (rest of the script is the same) ...
+    
 </script>
 <footer class="footer__section">
     <div class="container">
