@@ -274,7 +274,7 @@
     
     // --- LOADER FOR BUILDER DEMO ---
     function loadUnityBuild() {
-        const buildUrl = "https://YOUR_ACCOUNT_NAME.blob.core.windows.net/webgl-builds/BuilderDemo/Build";
+        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/BuilderDemo/Build";
         const loaderUrl = buildUrl + "/Build.loader.js";
         const config = {
             dataUrl: buildUrl + "/Build.data.unityweb",
@@ -320,12 +320,12 @@
     
     // --- LOADER FOR SHOWCASE DEMO ---
     function loadUnityShowcase() {
-        const buildUrl = "https://YOUR_ACCOUNT_NAME.blob.core.windows.net/webgl-builds/ShowcaseDemo/Showcase"; // New path
-        const loaderUrl = buildUrl + "/Showcase.loader.js"; // New file
+        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/ShowcaseDemo/Build"; // New path
+        const loaderUrl = buildUrl + "/Build.loader.js"; // New file
         const config = {
-            dataUrl: buildUrl + "/Showcase.data.unityweb", // New file
-            frameworkUrl: buildUrl + "/Showcase.framework.js.unityweb", // New file
-            codeUrl: buildUrl + "/Showcase.wasm.unityweb", // New file
+            dataUrl: buildUrl + "/Build.data.unityweb", // New file
+            frameworkUrl: buildUrl + "/Build.framework.js.unityweb", // New file
+            codeUrl: buildUrl + "/Build.wasm.unityweb", // New file
             streamingAssetsUrl: "StreamingAssets",
             companyName: "Milos Milosavljevic",
             productName: "LobianToolkit Showcase", // New product name
