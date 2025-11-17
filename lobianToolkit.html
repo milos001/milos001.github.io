@@ -274,12 +274,7 @@
     
     // --- LOADER FOR BUILDER DEMO ---
     function loadUnityBuild() {
-        // --- OLD ---
-        // const buildUrl = "BuilderDemo/Build";
-        
-        // --- NEW ---
-        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/BuilderDemo/Build";
-
+        const buildUrl = "https://YOUR_ACCOUNT_NAME.blob.core.windows.net/webgl-builds/BuilderDemo/Build";
         const loaderUrl = buildUrl + "/Build.loader.js";
         const config = {
             dataUrl: buildUrl + "/Build.data.unityweb",
@@ -290,7 +285,7 @@
             productName: "LobianToolkit Demo",
             productVersion: "1.0",
         };
-        // ... (rest of the function is the same) ...
+
         const canvas = document.querySelector("#unity-canvas-build");
         const loaderContainer = document.querySelector("#loader-container-build");
         const progressBar = document.querySelector("#unity-progress-bar-build");
@@ -325,23 +320,18 @@
     
     // --- LOADER FOR SHOWCASE DEMO ---
     function loadUnityShowcase() {
-        // --- OLD ---
-        // const buildUrl = "ShowcaseDemo/Showcase"; // New path
-
-        // --- NEW ---
-        const buildUrl = "https://lobiantoolkit.blob.core.windows.net/demo-builds/ShowcaseDemo/Build"; // New path
-
-        const loaderUrl = buildUrl + "/Build.loader.js"; // New file
+        const buildUrl = "https://YOUR_ACCOUNT_NAME.blob.core.windows.net/webgl-builds/ShowcaseDemo/Showcase"; // New path
+        const loaderUrl = buildUrl + "/Showcase.loader.js"; // New file
         const config = {
-            dataUrl: buildUrl + "/Build.data.unityweb", // New file
-            frameworkUrl: buildUrl + "/Build.framework.js.unityweb", // New file
-            codeUrl: buildUrl + "/Build.wasm.unityweb", // New file
+            dataUrl: buildUrl + "/Showcase.data.unityweb", // New file
+            frameworkUrl: buildUrl + "/Showcase.framework.js.unityweb", // New file
+            codeUrl: buildUrl + "/Showcase.wasm.unityweb", // New file
             streamingAssetsUrl: "StreamingAssets",
             companyName: "Milos Milosavljevic",
             productName: "LobianToolkit Showcase", // New product name
             productVersion: "1.0",
         };
-        // ... (rest of the function is the same) ...
+
         const canvas = document.querySelector("#unity-canvas-showcase");
         const loaderContainer = document.querySelector("#loader-container-showcase");
         const progressBar = document.querySelector("#unity-progress-bar-showcase");
@@ -373,8 +363,54 @@
         document.body.appendChild(script);
     }
 
-    // ... (rest of the script is the same) ...
-    
+
+    // --- GENERIC FULLSCREEN FUNCTION ---
+    function toggleFullscreen(containerId) {
+        const container = document.getElementById(containerId);
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            // Enter fullscreen
+            if (container.requestFullscreen) {
+                container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) { /* Safari */
+                container.webkitRequestFullscreen();
+            } else if (container.msRequestFullscreen) { /* IE11 */
+                container.msRequestFullscreen();
+            }
+        } else {
+            // Exit fullscreen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+    }
+
+    // --- NEW WRAPPER ---
+    // Wait for the DOM to be fully loaded before attaching event listeners
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- ATTACH EVENT LISTENERS ---
+        
+        // Play Buttons
+        document.getElementById("play-btn-build").addEventListener("click", loadUnityBuild);
+        document.getElementById("play-btn-showcase").addEventListener("click", loadUnityShowcase);
+        
+        // Fullscreen Buttons
+        document.getElementById("fullscreen-btn-build").addEventListener("click", () => toggleFullscreen("unity-container-build"));
+        document.getElementById("fullscreen-btn-showcase").addEventListener("click", () => toggleFullscreen("unity-container-showcase"));
+
+        // Optional: Add ESC key listener to exit fullscreen gracefully
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && (document.fullscreenElement || document.webkitFullscreenElement)) {
+                // ...
+            }
+        });
+
+    }); // --- END OF NEW WRAPPER ---
+
 </script>
 <footer class="footer__section">
     <div class="container">
